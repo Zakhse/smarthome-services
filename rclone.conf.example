@@ -1,0 +1,10 @@
+[pcloud]
+type = pcloud
+token = {"access_token":"...","token_type":"bearer","expiry":"..."}
+
+[gdrive]
+type = drive
+client_id = ...
+client_secret = ...
+scope = drive
+token = {"access_token":"...","token_type":"Bearer","refresh_token":"...","expiry":"..."}

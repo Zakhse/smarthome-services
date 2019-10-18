@@ -1,0 +1,36 @@
+version: "3.5"
+
+volumes:
+  mosquitto:
+
+x-base-environment: &base-envs
+  TZ: Europe/Moscow
+  HOSTNAME: smarthome-gateway
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto
+    ports:
+      - 1883:1883
+      - 9001:9001
+    environment:
+      <<: *base-envs
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto_passwd:/mosquitto/config/passwd
+      - mosquitto:/mosquitto
+    network_mode: "host"
+    restart: unless-stopped
+  backuper:
+    build:
+      context: ./backuper/image
+    environment:
+      <<: *base-envs
+      ARCHIVE_PASSWORD: ${BACKUP_ARCHIVE_PASSWORD}
+      BACKUP_DESTINATIONS: ${BACKUP_DESTINATIONS}
+    volumes:
+      - ./backuper/crontab:/config/crontab
+      - ./backuper/backup.sh:/config/backup.sh
+      - ./rclone.conf:/config/rclone.conf
+      - ./:/data
+    restart: unless-stopped
