@@ -11,9 +11,9 @@ function timestamp() {
 
 echo "$(timestamp) Creating backup..."
 
-IFS=', ' read -r -a backup_destinations <<< "$BACKUP_DESTINATIONS"
+IFS=,
 
-for destination in "${backup_destinations[@]}"
+for destination in $BACKUP_DESTINATIONS
 do
     echo "Copying backups from $destination..."
     rclone --auto-confirm -vv copy $destination /backups
@@ -23,11 +23,13 @@ done
 7z a -mhe=on -mx3 -p$ARCHIVE_PASSWORD /backups/backup.7z /data/*
 archive-rotator -v -n 3 --ext ".7z" /backups/backup.7z
 
-for destination in "${backup_destinations[@]}"
+for destination in $BACKUP_DESTINATIONS
 do
     echo "Syncing backups with $destination..."
     rclone --auto-confirm -vv sync /backups $destination --drive-use-trash=false
     echo "Synced backups with $destination!"
 done
+
+unset IFS
 
 echo "$(timestamp) Backup created!"
