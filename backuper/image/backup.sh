@@ -21,7 +21,7 @@ do
 done
 
 7z a -mhe=on -mx3 -p$ARCHIVE_PASSWORD /backups/backup.7z /data/. -xr\!.git*
-archive-rotator -v -n 3 --ext ".7z" /backups/backup.7z
+archive-rotator -v -n $NUMBER_OF_LAST_BACKUPS --ext ".7z" /backups/backup.7z
 
 for destination in $BACKUP_DESTINATIONS
 do

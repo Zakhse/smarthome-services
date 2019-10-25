@@ -28,9 +28,9 @@ services:
       <<: *base-envs
       ARCHIVE_PASSWORD: ${BACKUP_ARCHIVE_PASSWORD}
       BACKUP_DESTINATIONS: ${BACKUP_DESTINATIONS}
+      CRON_EXPRESSION: ${CRON_EXPRESSION:-0 */6 * * *}
+      NUMBER_OF_LAST_BACKUPS: ${NUMBER_OF_LAST_BACKUPS:-3}
     volumes:
-      - ./backuper/crontab:/config/crontab
-      - ./backuper/backup.sh:/config/backup.sh
       - ./rclone.conf:/config/rclone.conf
       - ./:/data
     restart: unless-stopped
