@@ -4,8 +4,8 @@ volumes:
   mosquitto:
 
 x-base-environment: &base-envs
-  TZ: Europe/Moscow
-  HOSTNAME: smarthome-gateway
+  TZ: ${TZ:-Europe/Moscow}
+  HOSTNAME: ${HOSTNAME:-smarthome-gateway}
 
 services:
   mosquitto:
