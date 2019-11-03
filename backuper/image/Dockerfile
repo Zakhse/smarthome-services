@@ -1,4 +1,4 @@
-FROM lucashalbert/docker-rclone
+FROM lucashalbert/rclone
 
 RUN apk add --no-cache tzdata
 
