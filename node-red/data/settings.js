@@ -17,7 +17,11 @@
 // const fs = require('fs');
 const bcrypt = require('bcryptjs')
 
-function parseAuth(authSequences) {
+function parseAuth(authSequences = '') {
+    if(authSequences.trim().length === 0) {
+        return []
+    }
+
     return authSequences.split(' ').map(s => s.trim()).map(userPassPerms => {
         const splitted = userPassPerms.split(',')
 
