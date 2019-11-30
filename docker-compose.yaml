@@ -41,10 +41,9 @@ services:
     environment:
       <<: *base-envs
       NODE_RED_IMAGE: ${NODE_RED_IMAGE:?NODE_RED_IMAGE is unset or empty}
-      NODE_RED_CREDENTIALS_SECRET: ${NODE_RED_CREDENTIALS_SECRET?NODE_RED_CREDENTIALS_SECRET is unset}
-      NODE_RED_ADMIN_AUTH:
-      NODE_RED_NODE_AUTH:
-      NODE_RED_STATIC_AUTH:
     volumes:
       - ./node-red/data:/data
+      - type: bind
+        source: ./node-red/settings.js
+        target: /data/settings.js
     restart: unless-stopped

@@ -1,5 +1,6 @@
 .env
 rclone.conf
 mosquitto_passwd
+node-red/settings.js
 node-red/data/*
-!node-red/data/settings.js
+!node-red/data/.gitkeep

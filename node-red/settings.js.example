@@ -15,33 +15,6 @@
  **/
 
 // const fs = require('fs');
-const bcrypt = require('bcryptjs')
-
-function parseAuth(authSequences = '') {
-    if(authSequences.trim().length === 0) {
-        return []
-    }
-
-    return authSequences.split(' ').map(s => s.trim()).map(userPassPerms => {
-        const splitted = userPassPerms.split(',')
-
-        const username = splitted[0]
-        const password = bcrypt.hashSync(splitted[1], 8)
-
-        if (splitted.length === 2) {
-            return {
-                user: username,
-                pass: password,
-            }
-        } else {
-            return {
-                username,
-                password,
-                permissions: splitted[2],
-            }
-        }
-    })
-}
 
 module.exports = {
     // the tcp port that the Node-RED web server is listening on
@@ -56,49 +29,6 @@ module.exports = {
     // The maximum length, in characters, of any message sent to the debug sidebar tab
     debugMaxLength: 1000,
 
-    // To disable the option for using local files for storing keys and certificates in the TLS configuration
-    //  node, set this to true
-    //tlsConfigDisableLocalFiles: true,
-
-    // By default, credentials are encrypted in storage using a generated key. To
-    // specify your own secret, set the following property.
-    // If you want to disable encryption of credentials, set this property to false.
-    // Note: once you set this property, do not change it - doing so will prevent
-    // node-red from being able to decrypt your existing credentials and they will be
-    // lost.
-    credentialSecret: process.env.NODE_RED_CREDENTIALS_SECRET || false,
-
-    // Securing Node-RED
-    // -----------------
-    // To password protect the Node-RED editor and admin API, the following
-    // property can be used. See http://nodered.org/docs/security.html for details.
-    adminAuth: {
-       type: "credentials",
-       users: parseAuth(process.env.NODE_RED_ADMIN_AUTH),
-    },
-
-    // To password protect the node-defined HTTP endpoints (httpNodeRoot), or
-    // the static content (httpStatic), the following properties can be used.
-    // The pass field is a bcrypt hash of the password.
-    // See http://nodered.org/docs/security.html#generating-the-password-hash
-    httpNodeAuth: parseAuth(process.env.NODE_RED_NODE_AUTH)[0],
-    httpStaticAuth: parseAuth(process.env.NODE_RED_STATIC_AUTH)[0],
-
-    // The following property can be used to enable HTTPS
-    // See http://nodejs.org/api/https.html#https_https_createserver_options_requestlistener
-    // for details on its contents.
-    // See the comment at the top of this file on how to load the `fs` module used by
-    // this setting.
-    //
-    //https: {
-    //    key: fs.readFileSync('privatekey.pem'),
-    //    cert: fs.readFileSync('certificate.pem')
-    //},
-
-    // The following property can be used to cause insecure HTTP connections to
-    // be redirected to HTTPS.
-    //requireHttps: true,
-
     // The following property can be used to seed Global Context with predefined
     // values. This allows extra node modules to be made available with the
     // Function node.
@@ -107,6 +37,7 @@ module.exports = {
     // can be accessed in a function block as:
     //    global.get("os")
     functionGlobalContext: {
+        // miio:require('miio'),
         // os:require('os'),
         // jfive:require("johnny-five"),
         // j5board:require("johnny-five").Board({repl:false})
