@@ -47,3 +47,15 @@ services:
         source: ./node-red/settings.js
         target: /data/settings.js
     restart: unless-stopped
+  cec:
+    build:
+      context: https://github.com/michaelarnauts/cec-mqtt-bridge.git
+    devices:
+      - "/dev/mem:/dev/mem"
+      - "/dev/vchiq:/dev/vchiq"
+    volumes:
+      - type: bind
+        source: ./cec/config.ini
+        target: /usr/src/app/config.ini
+    restart: unless-stopped
+    privileged: true

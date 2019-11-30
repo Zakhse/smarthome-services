@@ -4,3 +4,4 @@ mosquitto_passwd
 node-red/settings.js
 node-red/data/*
 !node-red/data/.gitkeep
+cec/config.ini
