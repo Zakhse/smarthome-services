@@ -4,5 +4,6 @@ mosquitto_passwd
 samba.env
 node-red/settings.js
 node-red/data/*
-!node-red/data/.gitkeep
 cec/config.ini
+hass/config/*
+!.gitkeep

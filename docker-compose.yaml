@@ -62,7 +62,7 @@ services:
     restart: unless-stopped
     privileged: true
   samba:
-    image: dperson/samba:${SAMBA_IMAGE_TAG}
+    image: dperson/samba:${SAMBA_IMAGE_TAG:-latest}
     ports:
       - "137:137/udp"
       - "138:138/udp"
@@ -82,3 +82,12 @@ services:
     volumes:
       - ./:/mnt:z
     restart: unless-stopped
+  hass:
+    image: homeassistant/${HASS_IMAGE:-home-assistant}
+    volumes:
+      - ./hass/config:/config
+    environment:
+      <<: *base-envs
+    restart: unless-stopped
+    network_mode: host
+
