@@ -62,7 +62,7 @@ services:
     restart: unless-stopped
     privileged: true
   samba:
-    image: dperson/samba
+    image: dperson/samba:${SAMBA_IMAGE_TAG}
     ports:
       - "137:137/udp"
       - "138:138/udp"
@@ -73,6 +73,7 @@ services:
     - samba.env
     environment:
       <<: *base-envs
+      PERMISSIONS: "true"
     read_only: true
     stdin_open: true
     tty: true
