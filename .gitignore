@@ -1,6 +1,7 @@
 .env
 rclone.conf
 mosquitto_passwd
+samba.env
 node-red/settings.js
 node-red/data/*
 !node-red/data/.gitkeep

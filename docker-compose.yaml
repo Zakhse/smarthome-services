@@ -1,4 +1,4 @@
-version: "3.5"
+version: "2.4"
 
 volumes:
   mosquitto:
@@ -53,9 +53,31 @@ services:
     devices:
       - "/dev/mem:/dev/mem"
       - "/dev/vchiq:/dev/vchiq"
+    environment:
+      <<: *base-envs
     volumes:
       - type: bind
         source: ./cec/config.ini
         target: /usr/src/app/config.ini
     restart: unless-stopped
     privileged: true
+  samba:
+    image: dperson/samba
+    ports:
+      - "137:137/udp"
+      - "138:138/udp"
+      - "139:139/tcp"
+      - "445:445/tcp"
+    mem_limit: ${SAMBA_MEMORY_LIMIT:-200M}
+    env_file:
+    - samba.env
+    environment:
+      <<: *base-envs
+    read_only: true
+    stdin_open: true
+    tty: true
+    tmpfs:
+      - /tmp
+    volumes:
+      - ./:/mnt:z
+    restart: unless-stopped
