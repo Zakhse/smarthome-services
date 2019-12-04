@@ -12,6 +12,8 @@ COPY ./cmd.sh /
 
 COPY ./entry.sh /usr/bin/docker-entrypoint.sh
 
+RUN chmod +x /usr/bin/docker-entrypoint.sh
+
 COPY ./backup.sh /
 
 CMD ["/cmd.sh"]
