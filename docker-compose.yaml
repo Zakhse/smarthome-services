@@ -22,6 +22,7 @@ services:
     network_mode: "host"
     restart: unless-stopped
   backuper:
+    user: ${BACKUPER_USER}
     build:
       context: ./backuper/image
     environment:
@@ -62,6 +63,7 @@ services:
     restart: unless-stopped
     privileged: true
   samba:
+    user: ${SAMBA_USER}
     image: dperson/samba:${SAMBA_IMAGE_TAG:-latest}
     ports:
       - "137:137/udp"
