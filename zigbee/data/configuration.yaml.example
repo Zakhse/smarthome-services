@@ -1,0 +1,11 @@
+_mqtt_server: &mqtt_server ""
+
+mqtt:
+  server: *mqtt_server
+  user: '!creds user'
+  password: '!creds password'
+advanced:
+  network_key: '!creds network_key'
+
+devices: devices.yaml
+groups: groups.yaml

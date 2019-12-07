@@ -22,7 +22,7 @@ services:
     network_mode: "host"
     restart: unless-stopped
   backuper:
-    user: ${BACKUPER_USER}
+    user: ${BACKUPER_USER:-}
     build:
       context: ./backuper/image
     environment:
@@ -63,7 +63,7 @@ services:
     restart: unless-stopped
     privileged: true
   samba:
-    user: ${SAMBA_USER}
+    user: ${SAMBA_USER:-}
     image: dperson/samba:${SAMBA_IMAGE_TAG:-latest}
     ports:
       - "137:137/udp"
@@ -92,4 +92,36 @@ services:
       <<: *base-envs
     restart: unless-stopped
     network_mode: host
-
+  zigbee:
+    build:
+      context: ./zigbee
+      args:
+        VERSION: ${ZIGBEE_IMAGE_TAG:-latest}
+    volumes:
+      - ./zigbee/data:/app/data
+      - /run/udev:/run/udev:ro
+    devices:
+      - ${ZIGBEE_DEVICE:-/dev/ttyACM0}:/dev/ttyACM0
+    environment:
+      <<: *base-envs
+      MQTT_SERVER: ${ZIGBEE_MQTT_SERVER:?ZIGBEE_MQTT_SERVER is not set}
+      MQTT_PORT: ${ZIGBEE_MQTT_PORT:-1883}
+      MQTT_SECURE: ${ZIGBEE_MQTT_SECURE:-false}
+      MQTT_USER: ${ZIGBEE_MQTT_USER:?ZIGBEE_MQTT_USER is not set}
+      MQTT_PASSWORD: ${ZIGBEE_MQTT_PASSWORD:?ZIGBEE_MQTT_PASSWORD is not set}
+      NETWORK_KEY: ${ZIGBEE_NETWORK_KEY:?ZIGBEE_NETWORK_KEY is not set}
+    network_mode: host
+    privileged: true
+    restart: unless-stopped
+  zigbee-assistant:
+    image: carldebilly/zigbee2mqttassistant:${ZIGBEE_ASSISTANT_IMAGE_TAG:-latest}
+    ports:
+      - "${ZIGBEE_ASSISTANT_PORT:-8080}:80"
+    environment:
+      <<: *base-envs
+      Z2MA_SETTINGS__MQTTSERVER: ${ZIGBEE_MQTT_SERVER}
+      Z2MA_SETTINGS__MQTTPORT: ${ZIGBEE_MQTT_PORT:-1883}
+      Z2MA_SETTINGS__MQTTSECURE: ${ZIGBEE_MQTT_SECURE:-false}
+      Z2MA_SETTINGS__MQTTUSERNAME: ${ZIGBEE_MQTT_USER}
+      Z2MA_SETTINGS__MQTTPASSWORD: ${ZIGBEE_MQTT_PASSWORD}
+    restart: unless-stopped

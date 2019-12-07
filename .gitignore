@@ -6,4 +6,6 @@ node-red/settings.js
 node-red/data/*
 cec/config.ini
 hass/config/*
+zigbee/data/*
 !.gitkeep
+!*.example
