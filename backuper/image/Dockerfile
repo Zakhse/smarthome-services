@@ -8,12 +8,10 @@ RUN python3 -m pip install archive-rotator
 
 RUN touch /var/log/cron.log && touch /var/log/backup.log && mkdir /backups && mkdir /config
 
-COPY ./cmd.sh /
+COPY ./cmd.sh ./backup.sh /
 
 COPY ./entry.sh /usr/bin/docker-entrypoint.sh
 
-RUN chmod +x /usr/bin/docker-entrypoint.sh
-
-COPY ./backup.sh /
+RUN chmod +x /usr/bin/docker-entrypoint.sh /backup.sh /cmd.sh
 
 CMD ["/cmd.sh"]

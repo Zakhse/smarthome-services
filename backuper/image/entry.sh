@@ -9,6 +9,5 @@ cp -f /config/rclone.conf /root/.config/rclone/rclone.conf
 
 chmod -R 0644 /var/spool/cron/crontabs
 chmod -R 0644 /root/.config/rclone
-chmod o+x /backup.sh
 
 exec "$@"
