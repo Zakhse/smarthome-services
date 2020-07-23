@@ -2,6 +2,7 @@ version: "2.4"
 
 volumes:
   mosquitto:
+  portainer_data:
 
 x-base-environment: &base-envs
   TZ: ${TZ:-Europe/Moscow}
@@ -124,4 +125,15 @@ services:
       Z2MA_SETTINGS__MQTTSECURE: ${ZIGBEE_MQTT_SECURE:-false}
       Z2MA_SETTINGS__MQTTUSERNAME: ${ZIGBEE_MQTT_USER}
       Z2MA_SETTINGS__MQTTPASSWORD: ${ZIGBEE_MQTT_PASSWORD}
+    restart: unless-stopped
+  portainer:
+    image: portainer/portainer:${PORTAINER_IMAGE:-latest}
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9000:9000
+    environment:
+      <<: *base-envs
     restart: unless-stopped
