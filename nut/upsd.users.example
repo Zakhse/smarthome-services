@@ -1,0 +1,10 @@
+[admin]
+    password = some_password
+    actions = set
+    actions = fsd
+    instcmds = ALL
+
+[upsmon]
+    password = some_password
+    instcmds = beeper.toggle
+    upsmon master

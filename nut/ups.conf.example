@@ -1,0 +1,4 @@
+[powerpal]
+  driver = blazer_ser
+  port = /dev/ttyS0
+  desc = "Web server"

@@ -137,3 +137,15 @@ services:
     environment:
       <<: *base-envs
     restart: unless-stopped
+  nut:
+    build:
+      context: ./nut
+    ports:
+      - 3493:3493
+    devices:
+      - ${NUT_USB_DEVICE:-/dev/bus/usb/001/001}
+    environment:
+      <<: *base-envs
+    volumes:
+      - ./nut:/etc/nut:ro
+    restart: unless-stopped

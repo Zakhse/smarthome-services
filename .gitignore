@@ -7,5 +7,6 @@ node-red/data/*
 cec/config.ini
 hass/config/*
 zigbee/data/*
+nut/*
 !.gitkeep
 !*.example
